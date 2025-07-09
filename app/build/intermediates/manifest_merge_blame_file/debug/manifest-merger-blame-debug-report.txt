@@ -1,0 +1,204 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="kavlo.sft.mobile"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="26"
+9        android:targetSdkVersion="34" />
+10
+11    <!-- Permissions untuk Bluetooth dan sensor -->
+12    <uses-permission android:name="android.permission.BLUETOOTH" />
+12-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:6:5-68
+12-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:6:22-65
+13    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+13-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:7:5-74
+13-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:7:22-71
+14    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+14-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:8:5-76
+14-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:8:22-73
+15    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+15-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:9:5-73
+15-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:9:22-70
+16    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+16-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:10:5-79
+16-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:10:22-76
+17    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+17-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:11:5-81
+17-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:11:22-78
+18
+19    <!-- Permissions untuk sensor -->
+20    <uses-permission android:name="android.permission.BODY_SENSORS" />
+20-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:14:5-71
+20-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:14:22-68
+21    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+21-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:15:5-79
+21-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:15:22-76
+22
+23    <!-- Permissions untuk network (jika diperlukan untuk sync data) -->
+24    <uses-permission android:name="android.permission.INTERNET" />
+24-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:18:5-67
+24-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:18:22-64
+25    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+25-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:19:5-79
+25-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:19:22-76
+26
+27    <!-- Permissions untuk storage (untuk menyimpan data) -->
+28    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+28-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:22:5-81
+28-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:22:22-78
+29    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+29-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:23:5-80
+29-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:23:22-77
+30
+31    <!-- Feature requirements -->
+32    <uses-feature
+32-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:26:5-28:35
+33        android:name="android.hardware.bluetooth_le"
+33-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:27:9-53
+34        android:required="true" />
+34-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:28:9-32
+35    <uses-feature
+35-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:29:5-31:36
+36        android:name="android.hardware.sensor.heartrate"
+36-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:30:9-57
+37        android:required="false" />
+37-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:31:9-33
+38
+39    <permission
+39-->[androidx.core:core:1.12.0] /home/rayy/.gradle/caches/8.11.1/transforms/81a3a68a99503352fc081845b40e7d0f/transformed/core-1.12.0/AndroidManifest.xml:22:5-24:47
+40        android:name="kavlo.sft.mobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+40-->[androidx.core:core:1.12.0] /home/rayy/.gradle/caches/8.11.1/transforms/81a3a68a99503352fc081845b40e7d0f/transformed/core-1.12.0/AndroidManifest.xml:23:9-81
+41        android:protectionLevel="signature" />
+41-->[androidx.core:core:1.12.0] /home/rayy/.gradle/caches/8.11.1/transforms/81a3a68a99503352fc081845b40e7d0f/transformed/core-1.12.0/AndroidManifest.xml:24:9-44
+42
+43    <uses-permission android:name="kavlo.sft.mobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+43-->[androidx.core:core:1.12.0] /home/rayy/.gradle/caches/8.11.1/transforms/81a3a68a99503352fc081845b40e7d0f/transformed/core-1.12.0/AndroidManifest.xml:26:5-97
+43-->[androidx.core:core:1.12.0] /home/rayy/.gradle/caches/8.11.1/transforms/81a3a68a99503352fc081845b40e7d0f/transformed/core-1.12.0/AndroidManifest.xml:26:22-94
+44
+45    <application
+45-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:33:5-53:19
+46        android:allowBackup="true"
+46-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:34:9-35
+47        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+47-->[androidx.core:core:1.12.0] /home/rayy/.gradle/caches/8.11.1/transforms/81a3a68a99503352fc081845b40e7d0f/transformed/core-1.12.0/AndroidManifest.xml:28:18-86
+48        android:dataExtractionRules="@xml/data_extraction_rules"
+48-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:35:9-65
+49        android:debuggable="true"
+50        android:extractNativeLibs="false"
+51        android:fullBackupContent="@xml/backup_rules"
+51-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:36:9-54
+52        android:icon="@mipmap/ic_launcher"
+52-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:37:9-43
+53        android:label="@string/app_name"
+53-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:38:9-41
+54        android:roundIcon="@mipmap/ic_launcher_round"
+54-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:39:9-54
+55        android:supportsRtl="true"
+55-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:40:9-35
+56        android:testOnly="true"
+57        android:theme="@style/Theme.Mobile" >
+57-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:41:9-44
+58        <activity
+58-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:43:9-52:20
+59            android:name="kavlo.sft.mobile.MainActivity"
+59-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:44:13-41
+60            android:exported="true"
+60-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:45:13-36
+61            android:label="@string/app_name"
+61-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:46:13-45
+62            android:theme="@style/Theme.Mobile" >
+62-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:47:13-48
+63            <intent-filter>
+63-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:48:13-51:29
+64                <action android:name="android.intent.action.MAIN" />
+64-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:49:17-69
+64-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:49:25-66
+65
+66                <category android:name="android.intent.category.LAUNCHER" />
+66-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:50:17-77
+66-->/home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:50:27-74
+67            </intent-filter>
+68        </activity>
+69        <activity
+69-->[androidx.compose.ui:ui-test-manifest:1.6.1] /home/rayy/.gradle/caches/8.11.1/transforms/b13b84944fbb316761d95a142b1fafe5/transformed/ui-test-manifest-1.6.1/AndroidManifest.xml:23:9-25:39
+70            android:name="androidx.activity.ComponentActivity"
+70-->[androidx.compose.ui:ui-test-manifest:1.6.1] /home/rayy/.gradle/caches/8.11.1/transforms/b13b84944fbb316761d95a142b1fafe5/transformed/ui-test-manifest-1.6.1/AndroidManifest.xml:24:13-63
+71            android:exported="true" />
+71-->[androidx.compose.ui:ui-test-manifest:1.6.1] /home/rayy/.gradle/caches/8.11.1/transforms/b13b84944fbb316761d95a142b1fafe5/transformed/ui-test-manifest-1.6.1/AndroidManifest.xml:25:13-36
+72        <activity
+72-->[androidx.compose.ui:ui-tooling-android:1.6.1] /home/rayy/.gradle/caches/8.11.1/transforms/d3b2aa51e0064b8da65acbeb7cd0c0af/transformed/ui-tooling-release/AndroidManifest.xml:23:9-25:39
+73            android:name="androidx.compose.ui.tooling.PreviewActivity"
+73-->[androidx.compose.ui:ui-tooling-android:1.6.1] /home/rayy/.gradle/caches/8.11.1/transforms/d3b2aa51e0064b8da65acbeb7cd0c0af/transformed/ui-tooling-release/AndroidManifest.xml:24:13-71
+74            android:exported="true" />
+74-->[androidx.compose.ui:ui-tooling-android:1.6.1] /home/rayy/.gradle/caches/8.11.1/transforms/d3b2aa51e0064b8da65acbeb7cd0c0af/transformed/ui-tooling-release/AndroidManifest.xml:25:13-36
+75
+76        <provider
+76-->[androidx.emoji2:emoji2:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/ce59f98c86d8d3056d9feb715e7f328f/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+77            android:name="androidx.startup.InitializationProvider"
+77-->[androidx.emoji2:emoji2:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/ce59f98c86d8d3056d9feb715e7f328f/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
+78            android:authorities="kavlo.sft.mobile.androidx-startup"
+78-->[androidx.emoji2:emoji2:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/ce59f98c86d8d3056d9feb715e7f328f/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
+79            android:exported="false" >
+79-->[androidx.emoji2:emoji2:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/ce59f98c86d8d3056d9feb715e7f328f/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
+80            <meta-data
+80-->[androidx.emoji2:emoji2:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/ce59f98c86d8d3056d9feb715e7f328f/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+81                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+81-->[androidx.emoji2:emoji2:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/ce59f98c86d8d3056d9feb715e7f328f/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+82                android:value="androidx.startup" />
+82-->[androidx.emoji2:emoji2:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/ce59f98c86d8d3056d9feb715e7f328f/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+83            <meta-data
+83-->[androidx.lifecycle:lifecycle-process:2.7.0] /home/rayy/.gradle/caches/8.11.1/transforms/8ab684645d34abbe5405cc21c976950b/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:29:13-31:52
+84                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+84-->[androidx.lifecycle:lifecycle-process:2.7.0] /home/rayy/.gradle/caches/8.11.1/transforms/8ab684645d34abbe5405cc21c976950b/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:30:17-78
+85                android:value="androidx.startup" />
+85-->[androidx.lifecycle:lifecycle-process:2.7.0] /home/rayy/.gradle/caches/8.11.1/transforms/8ab684645d34abbe5405cc21c976950b/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:31:17-49
+86            <meta-data
+86-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:29:13-31:52
+87                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+87-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:30:17-85
+88                android:value="androidx.startup" />
+88-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:31:17-49
+89        </provider>
+90
+91        <receiver
+91-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:34:9-52:20
+92            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+92-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:35:13-76
+93            android:directBootAware="false"
+93-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:36:13-44
+94            android:enabled="true"
+94-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:37:13-35
+95            android:exported="true"
+95-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:38:13-36
+96            android:permission="android.permission.DUMP" >
+96-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:39:13-57
+97            <intent-filter>
+97-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:40:13-42:29
+98                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+98-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:41:17-91
+98-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:41:25-88
+99            </intent-filter>
+100            <intent-filter>
+100-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:43:13-45:29
+101                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+101-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:44:17-85
+101-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:44:25-82
+102            </intent-filter>
+103            <intent-filter>
+103-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:46:13-48:29
+104                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+104-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:47:17-88
+104-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:47:25-85
+105            </intent-filter>
+106            <intent-filter>
+106-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:49:13-51:29
+107                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+107-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:50:17-95
+107-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/rayy/.gradle/caches/8.11.1/transforms/7afad332cc345c40e644e7693526575b/transformed/profileinstaller-1.3.0/AndroidManifest.xml:50:25-92
+108            </intent-filter>
+109        </receiver>
+110    </application>
+111
+112</manifest>

@@ -19,3 +19,12 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Keep Compose classes
+-keep class androidx.compose.** { *; }
+-keep class kotlin.** { *; }
+-keep class kotlinx.coroutines.** { *; }
+
+# Keep Bluetooth classes
+-keep class android.bluetooth.** { *; }
+-keep class androidx.bluetooth.** { *; }

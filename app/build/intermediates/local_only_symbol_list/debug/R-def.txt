@@ -1,0 +1,36 @@
+R_DEF: Internal format may change without notice
+local
+color black
+color purple_200
+color purple_500
+color purple_700
+color teal_200
+color teal_700
+color white
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+mipmap ic_launcher
+mipmap ic_launcher_round
+string active_exercise
+string app_name
+string battery_level
+string bpm
+string celsius
+string device_connected
+string device_disconnected
+string device_model
+string heart_rate
+string high_intensity_detected
+string low_activity_level
+string oxygen_level
+string percent
+string recent_activity
+string resting
+string settings
+string smart_headband_model
+string spo2
+string stress_level
+string temperature
+style Theme.Mobile
+xml backup_rules
+xml data_extraction_rules

@@ -1,0 +1,66 @@
+[
+    {
+        "merged": "kavlo.sft.mobile.app-merged_res-68:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "kavlo.sft.mobile.app-main-70:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "kavlo.sft.mobile.app-merged_res-68:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "kavlo.sft.mobile.app-main-70:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "kavlo.sft.mobile.app-merged_res-68:/mipmap-anydpi_ic_launcher.xml.flat",
+        "source": "kavlo.sft.mobile.app-main-70:/mipmap-anydpi/ic_launcher.xml"
+    },
+    {
+        "merged": "kavlo.sft.mobile.app-merged_res-68:/mipmap-anydpi_ic_launcher_round.xml.flat",
+        "source": "kavlo.sft.mobile.app-main-70:/mipmap-anydpi/ic_launcher_round.xml"
+    },
+    {
+        "merged": "kavlo.sft.mobile.app-merged_res-68:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "kavlo.sft.mobile.app-main-70:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "kavlo.sft.mobile.app-merged_res-68:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "kavlo.sft.mobile.app-main-70:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "kavlo.sft.mobile.app-merged_res-68:/xml_data_extraction_rules.xml.flat",
+        "source": "kavlo.sft.mobile.app-main-70:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "kavlo.sft.mobile.app-merged_res-68:/xml_backup_rules.xml.flat",
+        "source": "kavlo.sft.mobile.app-main-70:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "kavlo.sft.mobile.app-merged_res-68:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "kavlo.sft.mobile.app-main-70:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "kavlo.sft.mobile.app-merged_res-68:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "kavlo.sft.mobile.app-main-70:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "kavlo.sft.mobile.app-merged_res-68:/drawable_ic_launcher_background.xml.flat",
+        "source": "kavlo.sft.mobile.app-main-70:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "kavlo.sft.mobile.app-merged_res-68:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "kavlo.sft.mobile.app-main-70:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "kavlo.sft.mobile.app-merged_res-68:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "kavlo.sft.mobile.app-main-70:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "kavlo.sft.mobile.app-merged_res-68:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "kavlo.sft.mobile.app-main-70:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "kavlo.sft.mobile.app-merged_res-68:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "kavlo.sft.mobile.app-main-70:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "kavlo.sft.mobile.app-merged_res-68:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "kavlo.sft.mobile.app-main-70:/mipmap-xxxhdpi/ic_launcher.webp"
+    }
+]
