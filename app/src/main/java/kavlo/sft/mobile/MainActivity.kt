@@ -49,9 +49,17 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+sealed class NavigationItem(val route: String, val icon: ImageVector, val title: String) {
+    object Home : NavigationItem("home", Icons.Default.Home, "Home")
+    object Profile : NavigationItem("profile", Icons.Default.Person, "Profile")
+    object Settings : NavigationItem("settings", Icons.Default.Settings, "Settings")
+    object History : NavigationItem("history", Icons.Default.History, "History")
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SmartHeadbandApp() {
+    var selectedItem by remember { mutableStateOf(0) }
     var isConnected by remember { mutableStateOf(true) }
     var heartRate by remember { mutableStateOf(72) }
     var oxygenLevel by remember { mutableStateOf(98) }
@@ -60,7 +68,11 @@ fun SmartHeadbandApp() {
     var stressLevel by remember { mutableStateOf(25) }
     var batteryLevel by remember { mutableStateOf(85) }
 
-    // Simulate real-time data updates
+    var userName by remember { mutableStateOf("John Doe") }
+    var userAge by remember { mutableStateOf("25") }
+    var userHeight by remember { mutableStateOf("175") }
+    var userWeight by remember { mutableStateOf("70") }
+
     LaunchedEffect(Unit) {
         while (true) {
             delay(1000)
@@ -77,20 +89,103 @@ fun SmartHeadbandApp() {
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFF1A1A2E),
-                        Color(0xFF16213E),
-                        Color(0xFF0F3460)
+    val items = listOf(
+        NavigationItem.Home,
+        NavigationItem.Profile,
+        NavigationItem.Settings,
+        NavigationItem.History
+    )
+
+    Scaffold(
+        bottomBar = {
+            NavigationBar(
+                containerColor = Color(0xFF1E1E2E),
+                contentColor = Color.White
+            ) {
+                items.forEachIndexed { index, item ->
+                    NavigationBarItem(
+                        icon = {
+                            Icon(
+                                item.icon,
+                                contentDescription = item.title,
+                                tint = if (selectedItem == index) Color(0xFFE94560) else Color.Gray
+                            )
+                        },
+                        label = {
+                            Text(
+                                item.title,
+                                color = if (selectedItem == index) Color(0xFFE94560) else Color.Gray
+                            )
+                        },
+                        selected = selectedItem == index,
+                        onClick = { selectedItem = index },
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = Color(0xFFE94560),
+                            selectedTextColor = Color(0xFFE94560),
+                            unselectedIconColor = Color.Gray,
+                            unselectedTextColor = Color.Gray,
+                            indicatorColor = Color(0xFFE94560).copy(alpha = 0.2f)
+                        )
+                    )
+                }
+            }
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            Color(0xFF1A1A2E),
+                            Color(0xFF16213E),
+                            Color(0xFF0F3460)
+                        )
                     )
                 )
-            )
+        ) {
+            when (selectedItem) {
+                0 -> HomeScreen(
+                    isConnected = isConnected,
+                    heartRate = heartRate,
+                    oxygenLevel = oxygenLevel,
+                    isActiveActivity = isActiveActivity,
+                    temperature = temperature,
+                    stressLevel = stressLevel,
+                    batteryLevel = batteryLevel
+                )
+                1 -> ProfileScreen(
+                    userName = userName,
+                    userAge = userAge,
+                    userHeight = userHeight,
+                    userWeight = userWeight,
+                    onNameChange = { userName = it },
+                    onAgeChange = { userAge = it },
+                    onHeightChange = { userHeight = it },
+                    onWeightChange = { userWeight = it }
+                )
+                2 -> SettingsScreen()
+                3 -> HistoryScreen()
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeScreen(
+    isConnected: Boolean,
+    heartRate: Int,
+    oxygenLevel: Int,
+    isActiveActivity: Boolean,
+    temperature: Float,
+    stressLevel: Int,
+    batteryLevel: Int
+) {
+    Column(
+        modifier = Modifier.fillMaxSize()
     ) {
-        // Top App Bar
         TopAppBar(
             title = {
                 Row(
@@ -112,13 +207,6 @@ fun SmartHeadbandApp() {
             },
             actions = {
                 ConnectionIndicator(isConnected = isConnected)
-                IconButton(onClick = { /* Settings */ }) {
-                    Icon(
-                        Icons.Default.Settings,
-                        contentDescription = "Settings",
-                        tint = Color.White
-                    )
-                }
             },
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = Color.Transparent
@@ -131,7 +219,6 @@ fun SmartHeadbandApp() {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
-                // Main Health Metrics
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -148,7 +235,6 @@ fun SmartHeadbandApp() {
             }
 
             item {
-                // Activity Status
                 ActivityCard(
                     isActive = isActiveActivity,
                     modifier = Modifier.fillMaxWidth()
@@ -156,7 +242,6 @@ fun SmartHeadbandApp() {
             }
 
             item {
-                // Secondary Metrics
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -179,7 +264,6 @@ fun SmartHeadbandApp() {
             }
 
             item {
-                // Battery and Device Info
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -193,13 +277,518 @@ fun SmartHeadbandApp() {
                     )
                 }
             }
+        }
+    }
+}
 
-            item {
-                // Health History
-                HealthHistoryCard(
-                    modifier = Modifier.fillMaxWidth()
-                )
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ProfileScreen(
+    userName: String,
+    userAge: String,
+    userHeight: String,
+    userWeight: String,
+    onNameChange: (String) -> Unit,
+    onAgeChange: (String) -> Unit,
+    onHeightChange: (String) -> Unit,
+    onWeightChange: (String) -> Unit
+) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        item {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
+                ),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(80.dp)
+                            .background(
+                                Color(0xFFE94560).copy(alpha = 0.2f),
+                                CircleShape
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            Icons.Default.Person,
+                            contentDescription = null,
+                            tint = Color(0xFFE94560),
+                            modifier = Modifier.size(40.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = userName,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Text(
+                        text = "Smart Headband User",
+                        fontSize = 14.sp,
+                        color = Color.Gray
+                    )
+                }
             }
+        }
+
+        item {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
+                ),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text(
+                        text = "Personal Information",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    OutlinedTextField(
+                        value = userName,
+                        onValueChange = onNameChange,
+                        label = { Text("Name", color = Color.Gray) },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = Color.White,
+                            unfocusedTextColor = Color.White,
+                            focusedBorderColor = Color(0xFFE94560),
+                            unfocusedBorderColor = Color.Gray
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    OutlinedTextField(
+                        value = userAge,
+                        onValueChange = onAgeChange,
+                        label = { Text("Age", color = Color.Gray) },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = Color.White,
+                            unfocusedTextColor = Color.White,
+                            focusedBorderColor = Color(0xFFE94560),
+                            unfocusedBorderColor = Color.Gray
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    OutlinedTextField(
+                        value = userHeight,
+                        onValueChange = onHeightChange,
+                        label = { Text("Height (cm)", color = Color.Gray) },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = Color.White,
+                            unfocusedTextColor = Color.White,
+                            focusedBorderColor = Color(0xFFE94560),
+                            unfocusedBorderColor = Color.Gray
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    OutlinedTextField(
+                        value = userWeight,
+                        onValueChange = onWeightChange,
+                        label = { Text("Weight (kg)", color = Color.Gray) },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = Color.White,
+                            unfocusedTextColor = Color.White,
+                            focusedBorderColor = Color(0xFFE94560),
+                            unfocusedBorderColor = Color.Gray
+                        )
+                    )
+                }
+            }
+        }
+
+        item {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
+                ),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text(
+                        text = "Health Goals",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    ProfileGoalItem(
+                        title = "Target Heart Rate",
+                        value = "120-150 BPM",
+                        icon = Icons.Default.Favorite,
+                        color = Color(0xFFE94560)
+                    )
+
+                    ProfileGoalItem(
+                        title = "Daily Activity Goal",
+                        value = "60 minutes",
+                        icon = Icons.Default.DirectionsRun,
+                        color = Color(0xFFFFD93D)
+                    )
+
+                    ProfileGoalItem(
+                        title = "Stress Management",
+                        value = "Keep below 30%",
+                        icon = Icons.Default.Psychology,
+                        color = Color(0xFF4ECDC4)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ProfileGoalItem(
+    title: String,
+    value: String,
+    icon: ImageVector,
+    color: Color
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            icon,
+            contentDescription = null,
+            tint = color,
+            modifier = Modifier.size(24.dp)
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Column {
+            Text(
+                text = title,
+                fontSize = 14.sp,
+                color = Color.White
+            )
+            Text(
+                text = value,
+                fontSize = 12.sp,
+                color = Color.Gray
+            )
+        }
+    }
+}
+
+@Composable
+fun SettingsScreen() {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        item {
+            Text(
+                text = "Settings",
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+        }
+
+        item {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
+                ),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text(
+                        text = "Device Settings",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    SettingsItem(
+                        title = "Bluetooth Connection",
+                        subtitle = "Manage device connection",
+                        icon = Icons.Default.Bluetooth,
+                        color = Color(0xFF2196F3)
+                    )
+
+                    SettingsItem(
+                        title = "Auto-sync",
+                        subtitle = "Sync data automatically",
+                        icon = Icons.Default.Sync,
+                        color = Color(0xFF4CAF50)
+                    )
+
+                    SettingsItem(
+                        title = "Battery Optimization",
+                        subtitle = "Optimize battery usage",
+                        icon = Icons.Default.Battery6Bar,
+                        color = Color(0xFFFFD93D)
+                    )
+                }
+            }
+        }
+
+        item {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
+                ),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text(
+                        text = "Notifications",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    SettingsItem(
+                        title = "Health Alerts",
+                        subtitle = "Get notified about health changes",
+                        icon = Icons.Default.Notifications,
+                        color = Color(0xFFE94560)
+                    )
+
+                    SettingsItem(
+                        title = "Activity Reminders",
+                        subtitle = "Reminders to stay active",
+                        icon = Icons.Default.AccessAlarm,
+                        color = Color(0xFFFF9800)
+                    )
+
+                    SettingsItem(
+                        title = "Low Battery Warning",
+                        subtitle = "Alert when battery is low",
+                        icon = Icons.Default.Warning,
+                        color = Color(0xFFFF5722)
+                    )
+                }
+            }
+        }
+
+        item {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
+                ),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text(
+                        text = "Privacy & Security",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    SettingsItem(
+                        title = "Data Privacy",
+                        subtitle = "Control your data sharing",
+                        icon = Icons.Default.Security,
+                        color = Color(0xFF9C27B0)
+                    )
+
+                    SettingsItem(
+                        title = "Export Data",
+                        subtitle = "Download your health data",
+                        icon = Icons.Default.Download,
+                        color = Color(0xFF607D8B)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun SettingsItem(
+    title: String,
+    subtitle: String,
+    icon: ImageVector,
+    color: Color
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            icon,
+            contentDescription = null,
+            tint = color,
+            modifier = Modifier.size(24.dp)
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(
+                text = title,
+                fontSize = 16.sp,
+                color = Color.White
+            )
+            Text(
+                text = subtitle,
+                fontSize = 12.sp,
+                color = Color.Gray
+            )
+        }
+        Icon(
+            Icons.Default.ChevronRight,
+            contentDescription = null,
+            tint = Color.Gray,
+            modifier = Modifier.size(20.dp)
+        )
+    }
+}
+
+@Composable
+fun HistoryScreen() {
+    val historyData = remember {
+        listOf(
+            HistoryEntry("Today", "Heart Rate: 72 BPM", "12:30 PM", Icons.Default.Favorite, Color(0xFFE94560)),
+            HistoryEntry("Today", "SpO2: 98%", "12:00 PM", Icons.Default.Air, Color(0xFF4ECDC4)),
+            HistoryEntry("Today", "Exercise: 30 min", "11:30 AM", Icons.Default.DirectionsRun, Color(0xFFFFD93D)),
+            HistoryEntry("Today", "Stress: Low", "10:00 AM", Icons.Default.Psychology, Color(0xFF4ECDC4)),
+            HistoryEntry("Yesterday", "Heart Rate: 75 BPM", "8:00 PM", Icons.Default.Favorite, Color(0xFFE94560)),
+            HistoryEntry("Yesterday", "Temperature: 36.8°C", "7:30 PM", Icons.Default.Thermostat, Color(0xFFFF6B6B)),
+            HistoryEntry("Yesterday", "Exercise: 45 min", "6:00 PM", Icons.Default.DirectionsRun, Color(0xFFFFD93D)),
+            HistoryEntry("2 days ago", "Heart Rate: 68 BPM", "9:00 AM", Icons.Default.Favorite, Color(0xFFE94560)),
+            HistoryEntry("2 days ago", "SpO2: 97%", "8:30 AM", Icons.Default.Air, Color(0xFF4ECDC4)),
+        )
+    }
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        item {
+            Text(
+                text = "Health History",
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+        }
+
+        items(historyData.groupBy { it.date }.toList()) { (date, entries) ->
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
+                ),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text(
+                        text = date,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    entries.forEach { entry ->
+                        HistoryItem(entry = entry)
+                        if (entry != entries.last()) {
+                            Spacer(modifier = Modifier.height(8.dp))
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+data class HistoryEntry(
+    val date: String,
+    val description: String,
+    val time: String,
+    val icon: ImageVector,
+    val color: Color
+)
+
+@Composable
+fun HistoryItem(entry: HistoryEntry) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(32.dp)
+                .background(entry.color.copy(alpha = 0.2f), CircleShape),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                entry.icon,
+                contentDescription = null,
+                tint = entry.color,
+                modifier = Modifier.size(16.dp)
+            )
+        }
+        Spacer(modifier = Modifier.width(12.dp))
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(
+                text = entry.description,
+                fontSize = 14.sp,
+                color = Color.White
+            )
+            Text(
+                text = entry.time,
+                fontSize = 12.sp,
+                color = Color.Gray
+            )
         }
     }
 }
@@ -486,58 +1075,6 @@ fun DeviceInfoCard(modifier: Modifier = Modifier) {
                 fontSize = 12.sp,
                 color = Color.Gray
             )
-        }
-    }
-}
-
-@Composable
-fun HealthHistoryCard(modifier: Modifier = Modifier) {
-    val historyData = remember {
-        listOf(
-            "12:00 PM - Heart Rate: 75 BPM",
-            "11:30 AM - SpO2: 98%",
-            "11:00 AM - Exercise detected",
-            "10:30 AM - Stress level: Low",
-            "10:00 AM - Temperature: 36.8°C"
-        )
-    }
-
-    Card(
-        modifier = modifier,
-        colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
-        ),
-        shape = RoundedCornerShape(16.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Text(
-                text = "Recent Activity",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            historyData.forEach { item ->
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(8.dp)
-                            .background(Color(0xFF4ECDC4), CircleShape)
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Text(
-                        text = item,
-                        fontSize = 14.sp,
-                        color = Color.Gray
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-            }
         }
     }
 }

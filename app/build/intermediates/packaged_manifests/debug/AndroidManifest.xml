@@ -66,6 +66,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="kavlo.sft.mobile.ProfileActivity" />
+        <activity android:name="kavlo.sft.mobile.SettingsActivity" />
+        <activity android:name="kavlo.sft.mobile.HistoryActivity" />
         <activity
             android:name="androidx.activity.ComponentActivity"
             android:exported="true" />

@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:2:1-55:12
-INJECTED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:2:1-55:12
-INJECTED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:2:1-55:12
-INJECTED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:2:1-55:12
+ADDED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:2:1-58:12
+INJECTED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:2:1-58:12
+INJECTED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:2:1-58:12
+INJECTED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:2:1-58:12
 MERGED from [com.google.android.material:material:1.9.0] /home/rayy/.gradle/caches/8.11.1/transforms/b9db73b74e49248a51eec39e524fe0d7/transformed/material-1.9.0/AndroidManifest.xml:17:1-26:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /home/rayy/.gradle/caches/8.11.1/transforms/79e0df0a609a53cd3277a60fd03c2cdd/transformed/constraintlayout-2.0.1/AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat-resources:1.5.0] /home/rayy/.gradle/caches/8.11.1/transforms/25e1f912556f73cabc10c00b0bf72292/transformed/appcompat-resources-1.5.0/AndroidManifest.xml:17:1-22:12
@@ -156,8 +156,8 @@ ADDED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.
 	android:name
 		ADDED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:30:9-57
 application
-ADDED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:33:5-53:19
-INJECTED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:33:5-53:19
+ADDED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:33:5-56:19
+INJECTED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:33:5-56:19
 MERGED from [com.google.android.material:material:1.9.0] /home/rayy/.gradle/caches/8.11.1/transforms/b9db73b74e49248a51eec39e524fe0d7/transformed/material-1.9.0/AndroidManifest.xml:24:5-20
 MERGED from [com.google.android.material:material:1.9.0] /home/rayy/.gradle/caches/8.11.1/transforms/b9db73b74e49248a51eec39e524fe0d7/transformed/material-1.9.0/AndroidManifest.xml:24:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /home/rayy/.gradle/caches/8.11.1/transforms/79e0df0a609a53cd3277a60fd03c2cdd/transformed/constraintlayout-2.0.1/AndroidManifest.xml:9:5-20
@@ -220,6 +220,18 @@ category#android.intent.category.LAUNCHER
 ADDED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:50:17-77
 	android:name
 		ADDED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:50:27-74
+activity#kavlo.sft.mobile.ProfileActivity
+ADDED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:53:9-53
+	android:name
+		ADDED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:53:19-50
+activity#kavlo.sft.mobile.SettingsActivity
+ADDED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:54:9-54
+	android:name
+		ADDED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:54:19-51
+activity#kavlo.sft.mobile.HistoryActivity
+ADDED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:55:9-53
+	android:name
+		ADDED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml:55:19-50
 uses-sdk
 INJECTED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /home/rayy/AndroidStudioProjects/Mobile/app/src/main/AndroidManifest.xml
