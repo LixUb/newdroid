@@ -1,10 +1,10 @@
-#Wed Jul 09 14:46:54 WIB 2025
-base.0=/home/rayy/AndroidStudioProjects/Mobile/app/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
-base.1=/home/rayy/AndroidStudioProjects/Mobile/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
-base.2=/home/rayy/AndroidStudioProjects/Mobile/app/build/intermediates/dex/debug/mergeProjectDexDebug/10/classes.dex
-base.3=/home/rayy/AndroidStudioProjects/Mobile/app/build/intermediates/dex/debug/mergeProjectDexDebug/14/classes.dex
-base.4=/home/rayy/AndroidStudioProjects/Mobile/app/build/intermediates/dex/debug/mergeExtDexDebug/classes2.dex
-base.5=/home/rayy/AndroidStudioProjects/Mobile/app/build/intermediates/dex/debug/mergeExtDexDebug/classes3.dex
+#Thu Aug 21 22:59:48 WIB 2025
+base.0=/home/rayy/newdroid/app/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
+base.1=/home/rayy/newdroid/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
+base.2=/home/rayy/newdroid/app/build/intermediates/dex/debug/mergeProjectDexDebug/10/classes.dex
+base.3=/home/rayy/newdroid/app/build/intermediates/dex/debug/mergeProjectDexDebug/14/classes.dex
+base.4=/home/rayy/newdroid/app/build/intermediates/dex/debug/mergeExtDexDebug/classes2.dex
+base.5=/home/rayy/newdroid/app/build/intermediates/dex/debug/mergeExtDexDebug/classes3.dex
 path.0=classes.dex
 path.1=0/classes.dex
 path.2=10/classes.dex

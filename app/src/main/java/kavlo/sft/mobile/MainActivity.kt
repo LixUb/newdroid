@@ -6,9 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -49,6 +52,105 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// Theme Data Classes
+data class AppTheme(
+    val name: String,
+    val primaryColor: Color,
+    val secondaryColor: Color,
+    val accentColor: Color,
+    val backgroundColor: List<Color>,
+    val cardColor: Color,
+    val textColor: Color,
+    val icon: ImageVector
+)
+
+val availableThemes = listOf(
+    AppTheme(
+        name = "Dark Blue",
+        primaryColor = Color(0xFFE94560),
+        secondaryColor = Color(0xFF4ECDC4),
+        accentColor = Color(0xFFFFD93D),
+        backgroundColor = listOf(
+            Color(0xFF1A1A2E),
+            Color(0xFF16213E),
+            Color(0xFF0F3460)
+        ),
+        cardColor = Color(0xFF1E1E2E),
+        textColor = Color.White,
+        icon = Icons.Default.DarkMode
+    ),
+    AppTheme(
+        name = "Ocean",
+        primaryColor = Color(0xFF00D4AA),
+        secondaryColor = Color(0xFF4FC3F7),
+        accentColor = Color(0xFF26C6DA),
+        backgroundColor = listOf(
+            Color(0xFF0D47A1),
+            Color(0xFF1565C0),
+            Color(0xFF1976D2)
+        ),
+        cardColor = Color(0xFF1E3A8A),
+        textColor = Color.White,
+        icon = Icons.Default.Water
+    ),
+    AppTheme(
+        name = "Sunset",
+        primaryColor = Color(0xFFFF6B35),
+        secondaryColor = Color(0xFFF7931E),
+        accentColor = Color(0xFFFFD23F),
+        backgroundColor = listOf(
+            Color(0xFF8B5CF6),
+            Color(0xFFEC4899),
+            Color(0xFFEF4444)
+        ),
+        cardColor = Color(0xFF7C2D12),
+        textColor = Color.White,
+        icon = Icons.Default.WbSunny
+    ),
+    AppTheme(
+        name = "Forest",
+        primaryColor = Color(0xFF34D399),
+        secondaryColor = Color(0xFF10B981),
+        accentColor = Color(0xFF059669),
+        backgroundColor = listOf(
+            Color(0xFF064E3B),
+            Color(0xFF065F46),
+            Color(0xFF047857)
+        ),
+        cardColor = Color(0xFF1F2937),
+        textColor = Color.White,
+        icon = Icons.Default.Forest
+    ),
+    AppTheme(
+        name = "Purple",
+        primaryColor = Color(0xFF8B5CF6),
+        secondaryColor = Color(0xFFA855F7),
+        accentColor = Color(0xFFC084FC),
+        backgroundColor = listOf(
+            Color(0xFF581C87),
+            Color(0xFF6B21A8),
+            Color(0xFF7C2D92)
+        ),
+        cardColor = Color(0xFF312E81),
+        textColor = Color.White,
+        icon = Icons.Default.ColorLens
+    ),
+    AppTheme(
+        name = "Light",
+        primaryColor = Color(0xFF3B82F6),
+        secondaryColor = Color(0xFF10B981),
+        accentColor = Color(0xFFF59E0B),
+        backgroundColor = listOf(
+            Color(0xFFF8FAFC),
+            Color(0xFFF1F5F9),
+            Color(0xFFE2E8F0)
+        ),
+        cardColor = Color.White,
+        textColor = Color(0xFF1E293B),
+        icon = Icons.Default.LightMode
+    )
+)
+
 sealed class NavigationItem(val route: String, val icon: ImageVector, val title: String) {
     object Home : NavigationItem("home", Icons.Default.Home, "Home")
     object Profile : NavigationItem("profile", Icons.Default.Person, "Profile")
@@ -67,6 +169,7 @@ fun SmartHeadbandApp() {
     var temperature by remember { mutableStateOf(36.5f) }
     var stressLevel by remember { mutableStateOf(25) }
     var batteryLevel by remember { mutableStateOf(85) }
+    var selectedTheme by remember { mutableStateOf(availableThemes[0]) }
 
     var userName by remember { mutableStateOf("John Doe") }
     var userAge by remember { mutableStateOf("25") }
@@ -99,8 +202,8 @@ fun SmartHeadbandApp() {
     Scaffold(
         bottomBar = {
             NavigationBar(
-                containerColor = Color(0xFF1E1E2E),
-                contentColor = Color.White
+                containerColor = selectedTheme.cardColor.copy(alpha = 0.95f),
+                contentColor = selectedTheme.textColor
             ) {
                 items.forEachIndexed { index, item ->
                     NavigationBarItem(
@@ -108,23 +211,23 @@ fun SmartHeadbandApp() {
                             Icon(
                                 item.icon,
                                 contentDescription = item.title,
-                                tint = if (selectedItem == index) Color(0xFFE94560) else Color.Gray
+                                tint = if (selectedItem == index) selectedTheme.primaryColor else Color.Gray
                             )
                         },
                         label = {
                             Text(
                                 item.title,
-                                color = if (selectedItem == index) Color(0xFFE94560) else Color.Gray
+                                color = if (selectedItem == index) selectedTheme.primaryColor else Color.Gray
                             )
                         },
                         selected = selectedItem == index,
                         onClick = { selectedItem = index },
                         colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = Color(0xFFE94560),
-                            selectedTextColor = Color(0xFFE94560),
+                            selectedIconColor = selectedTheme.primaryColor,
+                            selectedTextColor = selectedTheme.primaryColor,
                             unselectedIconColor = Color.Gray,
                             unselectedTextColor = Color.Gray,
-                            indicatorColor = Color(0xFFE94560).copy(alpha = 0.2f)
+                            indicatorColor = selectedTheme.primaryColor.copy(alpha = 0.2f)
                         )
                     )
                 }
@@ -137,11 +240,7 @@ fun SmartHeadbandApp() {
                 .padding(innerPadding)
                 .background(
                     Brush.verticalGradient(
-                        colors = listOf(
-                            Color(0xFF1A1A2E),
-                            Color(0xFF16213E),
-                            Color(0xFF0F3460)
-                        )
+                        colors = selectedTheme.backgroundColor
                     )
                 )
         ) {
@@ -153,7 +252,8 @@ fun SmartHeadbandApp() {
                     isActiveActivity = isActiveActivity,
                     temperature = temperature,
                     stressLevel = stressLevel,
-                    batteryLevel = batteryLevel
+                    batteryLevel = batteryLevel,
+                    theme = selectedTheme
                 )
                 1 -> ProfileScreen(
                     userName = userName,
@@ -163,10 +263,15 @@ fun SmartHeadbandApp() {
                     onNameChange = { userName = it },
                     onAgeChange = { userAge = it },
                     onHeightChange = { userHeight = it },
-                    onWeightChange = { userWeight = it }
+                    onWeightChange = { userWeight = it },
+                    theme = selectedTheme
                 )
-                2 -> SettingsScreen()
-                3 -> HistoryScreen()
+                2 -> SettingsScreen(
+                    selectedTheme = selectedTheme,
+                    onThemeChange = { selectedTheme = it },
+                    theme = selectedTheme
+                )
+                3 -> HistoryScreen(theme = selectedTheme)
             }
         }
     }
@@ -181,7 +286,8 @@ fun HomeScreen(
     isActiveActivity: Boolean,
     temperature: Float,
     stressLevel: Int,
-    batteryLevel: Int
+    batteryLevel: Int,
+    theme: AppTheme
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
@@ -195,18 +301,18 @@ fun HomeScreen(
                     Icon(
                         Icons.Default.Favorite,
                         contentDescription = null,
-                        tint = Color(0xFFE94560)
+                        tint = theme.primaryColor
                     )
                     Text(
                         "KAVLO Mobile App",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = theme.textColor
                     )
                 }
             },
             actions = {
-                ConnectionIndicator(isConnected = isConnected)
+                ConnectionIndicator(isConnected = isConnected, theme = theme)
             },
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = Color.Transparent
@@ -225,10 +331,12 @@ fun HomeScreen(
                 ) {
                     HeartRateCard(
                         heartRate = heartRate,
+                        theme = theme,
                         modifier = Modifier.weight(1f)
                     )
                     OxygenCard(
                         oxygenLevel = oxygenLevel,
+                        theme = theme,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -237,6 +345,7 @@ fun HomeScreen(
             item {
                 ActivityCard(
                     isActive = isActiveActivity,
+                    theme = theme,
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -250,14 +359,16 @@ fun HomeScreen(
                         title = "Temperature",
                         value = "${String.format("%.1f", temperature)}°C",
                         icon = Icons.Default.Thermostat,
-                        color = Color(0xFFFF6B6B),
+                        color = theme.primaryColor,
+                        theme = theme,
                         modifier = Modifier.weight(1f)
                     )
                     MetricCard(
                         title = "Stress Level",
                         value = "$stressLevel%",
                         icon = Icons.Default.Psychology,
-                        color = Color(0xFF4ECDC4),
+                        color = theme.secondaryColor,
+                        theme = theme,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -270,9 +381,11 @@ fun HomeScreen(
                 ) {
                     BatteryCard(
                         batteryLevel = batteryLevel,
+                        theme = theme,
                         modifier = Modifier.weight(1f)
                     )
                     DeviceInfoCard(
+                        theme = theme,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -291,7 +404,8 @@ fun ProfileScreen(
     onNameChange: (String) -> Unit,
     onAgeChange: (String) -> Unit,
     onHeightChange: (String) -> Unit,
-    onWeightChange: (String) -> Unit
+    onWeightChange: (String) -> Unit,
+    theme: AppTheme
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -302,7 +416,7 @@ fun ProfileScreen(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
+                    containerColor = theme.cardColor.copy(alpha = 0.8f)
                 ),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -314,7 +428,7 @@ fun ProfileScreen(
                         modifier = Modifier
                             .size(80.dp)
                             .background(
-                                Color(0xFFE94560).copy(alpha = 0.2f),
+                                theme.primaryColor.copy(alpha = 0.2f),
                                 CircleShape
                             ),
                         contentAlignment = Alignment.Center
@@ -322,7 +436,7 @@ fun ProfileScreen(
                         Icon(
                             Icons.Default.Person,
                             contentDescription = null,
-                            tint = Color(0xFFE94560),
+                            tint = theme.primaryColor,
                             modifier = Modifier.size(40.dp)
                         )
                     }
@@ -331,12 +445,12 @@ fun ProfileScreen(
                         text = userName,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = theme.textColor
                     )
                     Text(
                         text = "Smart Headband User",
                         fontSize = 14.sp,
-                        color = Color.Gray
+                        color = if (theme.name == "Light") Color.Gray else Color.Gray
                     )
                 }
             }
@@ -346,7 +460,7 @@ fun ProfileScreen(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
+                    containerColor = theme.cardColor.copy(alpha = 0.8f)
                 ),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -357,7 +471,7 @@ fun ProfileScreen(
                         text = "Personal Information",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = theme.textColor
                     )
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -367,9 +481,9 @@ fun ProfileScreen(
                         label = { Text("Name", color = Color.Gray) },
                         modifier = Modifier.fillMaxWidth(),
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedTextColor = Color.White,
-                            unfocusedTextColor = Color.White,
-                            focusedBorderColor = Color(0xFFE94560),
+                            focusedTextColor = theme.textColor,
+                            unfocusedTextColor = theme.textColor,
+                            focusedBorderColor = theme.primaryColor,
                             unfocusedBorderColor = Color.Gray
                         )
                     )
@@ -382,9 +496,9 @@ fun ProfileScreen(
                         label = { Text("Age", color = Color.Gray) },
                         modifier = Modifier.fillMaxWidth(),
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedTextColor = Color.White,
-                            unfocusedTextColor = Color.White,
-                            focusedBorderColor = Color(0xFFE94560),
+                            focusedTextColor = theme.textColor,
+                            unfocusedTextColor = theme.textColor,
+                            focusedBorderColor = theme.primaryColor,
                             unfocusedBorderColor = Color.Gray
                         )
                     )
@@ -397,9 +511,9 @@ fun ProfileScreen(
                         label = { Text("Height (cm)", color = Color.Gray) },
                         modifier = Modifier.fillMaxWidth(),
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedTextColor = Color.White,
-                            unfocusedTextColor = Color.White,
-                            focusedBorderColor = Color(0xFFE94560),
+                            focusedTextColor = theme.textColor,
+                            unfocusedTextColor = theme.textColor,
+                            focusedBorderColor = theme.primaryColor,
                             unfocusedBorderColor = Color.Gray
                         )
                     )
@@ -412,9 +526,9 @@ fun ProfileScreen(
                         label = { Text("Weight (kg)", color = Color.Gray) },
                         modifier = Modifier.fillMaxWidth(),
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedTextColor = Color.White,
-                            unfocusedTextColor = Color.White,
-                            focusedBorderColor = Color(0xFFE94560),
+                            focusedTextColor = theme.textColor,
+                            unfocusedTextColor = theme.textColor,
+                            focusedBorderColor = theme.primaryColor,
                             unfocusedBorderColor = Color.Gray
                         )
                     )
@@ -426,7 +540,7 @@ fun ProfileScreen(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
+                    containerColor = theme.cardColor.copy(alpha = 0.8f)
                 ),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -437,7 +551,7 @@ fun ProfileScreen(
                         text = "Health Goals",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = theme.textColor
                     )
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -445,21 +559,24 @@ fun ProfileScreen(
                         title = "Target Heart Rate",
                         value = "120-150 BPM",
                         icon = Icons.Default.Favorite,
-                        color = Color(0xFFE94560)
+                        color = theme.primaryColor,
+                        theme = theme
                     )
 
                     ProfileGoalItem(
                         title = "Daily Activity Goal",
                         value = "60 minutes",
                         icon = Icons.Default.DirectionsRun,
-                        color = Color(0xFFFFD93D)
+                        color = theme.accentColor,
+                        theme = theme
                     )
 
                     ProfileGoalItem(
                         title = "Stress Management",
                         value = "Keep below 30%",
                         icon = Icons.Default.Psychology,
-                        color = Color(0xFF4ECDC4)
+                        color = theme.secondaryColor,
+                        theme = theme
                     )
                 }
             }
@@ -472,7 +589,8 @@ fun ProfileGoalItem(
     title: String,
     value: String,
     icon: ImageVector,
-    color: Color
+    color: Color,
+    theme: AppTheme
 ) {
     Row(
         modifier = Modifier
@@ -491,7 +609,7 @@ fun ProfileGoalItem(
             Text(
                 text = title,
                 fontSize = 14.sp,
-                color = Color.White
+                color = theme.textColor
             )
             Text(
                 text = value,
@@ -503,7 +621,11 @@ fun ProfileGoalItem(
 }
 
 @Composable
-fun SettingsScreen() {
+fun SettingsScreen(
+    selectedTheme: AppTheme,
+    onThemeChange: (AppTheme) -> Unit,
+    theme: AppTheme
+) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
@@ -514,16 +636,56 @@ fun SettingsScreen() {
                 text = "Settings",
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.White,
+                color = theme.textColor,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
+        }
+
+        // Theme Selection Section
+        item {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = theme.cardColor.copy(alpha = 0.8f)
+                ),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text(
+                        text = "Theme Selection",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = theme.textColor
+                    )
+                    Text(
+                        text = "Choose your preferred theme",
+                        fontSize = 14.sp,
+                        color = Color.Gray,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        items(availableThemes) { themeOption ->
+                            ThemeCard(
+                                theme = themeOption,
+                                isSelected = selectedTheme == themeOption,
+                                onSelect = { onThemeChange(themeOption) }
+                            )
+                        }
+                    }
+                }
+            }
         }
 
         item {
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
+                    containerColor = theme.cardColor.copy(alpha = 0.8f)
                 ),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -534,7 +696,7 @@ fun SettingsScreen() {
                         text = "Device Settings",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = theme.textColor
                     )
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -542,21 +704,24 @@ fun SettingsScreen() {
                         title = "Bluetooth Connection",
                         subtitle = "Manage device connection",
                         icon = Icons.Default.Bluetooth,
-                        color = Color(0xFF2196F3)
+                        color = Color(0xFF2196F3),
+                        theme = theme
                     )
 
                     SettingsItem(
                         title = "Auto-sync",
                         subtitle = "Sync data automatically",
                         icon = Icons.Default.Sync,
-                        color = Color(0xFF4CAF50)
+                        color = Color(0xFF4CAF50),
+                        theme = theme
                     )
 
                     SettingsItem(
                         title = "Battery Optimization",
                         subtitle = "Optimize battery usage",
                         icon = Icons.Default.Battery6Bar,
-                        color = Color(0xFFFFD93D)
+                        color = theme.accentColor,
+                        theme = theme
                     )
                 }
             }
@@ -566,7 +731,7 @@ fun SettingsScreen() {
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
+                    containerColor = theme.cardColor.copy(alpha = 0.8f)
                 ),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -577,7 +742,7 @@ fun SettingsScreen() {
                         text = "Notifications",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = theme.textColor
                     )
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -585,21 +750,24 @@ fun SettingsScreen() {
                         title = "Health Alerts",
                         subtitle = "Get notified about health changes",
                         icon = Icons.Default.Notifications,
-                        color = Color(0xFFE94560)
+                        color = theme.primaryColor,
+                        theme = theme
                     )
 
                     SettingsItem(
                         title = "Activity Reminders",
                         subtitle = "Reminders to stay active",
                         icon = Icons.Default.AccessAlarm,
-                        color = Color(0xFFFF9800)
+                        color = Color(0xFFFF9800),
+                        theme = theme
                     )
 
                     SettingsItem(
                         title = "Low Battery Warning",
                         subtitle = "Alert when battery is low",
                         icon = Icons.Default.Warning,
-                        color = Color(0xFFFF5722)
+                        color = Color(0xFFFF5722),
+                        theme = theme
                     )
                 }
             }
@@ -609,7 +777,7 @@ fun SettingsScreen() {
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
+                    containerColor = theme.cardColor.copy(alpha = 0.8f)
                 ),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -620,7 +788,7 @@ fun SettingsScreen() {
                         text = "Privacy & Security",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = theme.textColor
                     )
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -628,17 +796,90 @@ fun SettingsScreen() {
                         title = "Data Privacy",
                         subtitle = "Control your data sharing",
                         icon = Icons.Default.Security,
-                        color = Color(0xFF9C27B0)
+                        color = Color(0xFF9C27B0),
+                        theme = theme
                     )
 
                     SettingsItem(
                         title = "Export Data",
                         subtitle = "Download your health data",
                         icon = Icons.Default.Download,
-                        color = Color(0xFF607D8B)
+                        color = Color(0xFF607D8B),
+                        theme = theme
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun ThemeCard(
+    theme: AppTheme,
+    isSelected: Boolean,
+    onSelect: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .size(100.dp, 120.dp)
+            .clickable { onSelect() },
+        colors = CardDefaults.cardColors(
+            containerColor = if (isSelected)
+                theme.primaryColor.copy(alpha = 0.3f)
+            else
+                Color(0xFF1E1E2E).copy(alpha = 0.8f)
+        ),
+        shape = RoundedCornerShape(12.dp),
+        border = if (isSelected)
+            androidx.compose.foundation.BorderStroke(2.dp, theme.primaryColor)
+        else null
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            // Theme preview colors
+            Row(
+                modifier = Modifier.height(20.dp),
+                horizontalArrangement = Arrangement.spacedBy(2.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(14.dp)
+                        .background(theme.primaryColor, CircleShape)
+                )
+                Box(
+                    modifier = Modifier
+                        .size(14.dp)
+                        .background(theme.secondaryColor, CircleShape)
+                )
+                Box(
+                    modifier = Modifier
+                        .size(14.dp)
+                        .background(theme.accentColor, CircleShape)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Icon(
+                theme.icon,
+                contentDescription = null,
+                tint = if (isSelected) theme.primaryColor else theme.textColor,
+                modifier = Modifier.size(24.dp)
+            )
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = theme.name,
+                fontSize = 12.sp,
+                color = if (isSelected) theme.primaryColor else theme.textColor,
+                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+            )
         }
     }
 }
@@ -648,7 +889,8 @@ fun SettingsItem(
     title: String,
     subtitle: String,
     icon: ImageVector,
-    color: Color
+    color: Color,
+    theme: AppTheme
 ) {
     Row(
         modifier = Modifier
@@ -669,7 +911,7 @@ fun SettingsItem(
             Text(
                 text = title,
                 fontSize = 16.sp,
-                color = Color.White
+                color = theme.textColor
             )
             Text(
                 text = subtitle,
@@ -687,18 +929,18 @@ fun SettingsItem(
 }
 
 @Composable
-fun HistoryScreen() {
+fun HistoryScreen(theme: AppTheme) {
     val historyData = remember {
         listOf(
-            HistoryEntry("Today", "Heart Rate: 72 BPM", "12:30 PM", Icons.Default.Favorite, Color(0xFFE94560)),
-            HistoryEntry("Today", "SpO2: 98%", "12:00 PM", Icons.Default.Air, Color(0xFF4ECDC4)),
-            HistoryEntry("Today", "Exercise: 30 min", "11:30 AM", Icons.Default.DirectionsRun, Color(0xFFFFD93D)),
-            HistoryEntry("Today", "Stress: Low", "10:00 AM", Icons.Default.Psychology, Color(0xFF4ECDC4)),
-            HistoryEntry("Yesterday", "Heart Rate: 75 BPM", "8:00 PM", Icons.Default.Favorite, Color(0xFFE94560)),
+            HistoryEntry("Today", "Heart Rate: 72 BPM", "12:30 PM", Icons.Default.Favorite, theme.primaryColor),
+            HistoryEntry("Today", "SpO2: 98%", "12:00 PM", Icons.Default.Air, theme.secondaryColor),
+            HistoryEntry("Today", "Exercise: 30 min", "11:30 AM", Icons.Default.DirectionsRun, theme.accentColor),
+            HistoryEntry("Today", "Stress: Low", "10:00 AM", Icons.Default.Psychology, theme.secondaryColor),
+            HistoryEntry("Yesterday", "Heart Rate: 75 BPM", "8:00 PM", Icons.Default.Favorite, theme.primaryColor),
             HistoryEntry("Yesterday", "Temperature: 36.8°C", "7:30 PM", Icons.Default.Thermostat, Color(0xFFFF6B6B)),
-            HistoryEntry("Yesterday", "Exercise: 45 min", "6:00 PM", Icons.Default.DirectionsRun, Color(0xFFFFD93D)),
-            HistoryEntry("2 days ago", "Heart Rate: 68 BPM", "9:00 AM", Icons.Default.Favorite, Color(0xFFE94560)),
-            HistoryEntry("2 days ago", "SpO2: 97%", "8:30 AM", Icons.Default.Air, Color(0xFF4ECDC4)),
+            HistoryEntry("Yesterday", "Exercise: 45 min", "6:00 PM", Icons.Default.DirectionsRun, theme.accentColor),
+            HistoryEntry("2 days ago", "Heart Rate: 68 BPM", "9:00 AM", Icons.Default.Favorite, theme.primaryColor),
+            HistoryEntry("2 days ago", "SpO2: 97%", "8:30 AM", Icons.Default.Air, theme.secondaryColor),
         )
     }
 
@@ -712,7 +954,7 @@ fun HistoryScreen() {
                 text = "Health History",
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.White,
+                color = theme.textColor,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
         }
@@ -721,7 +963,7 @@ fun HistoryScreen() {
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
+                    containerColor = theme.cardColor.copy(alpha = 0.8f)
                 ),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -732,12 +974,12 @@ fun HistoryScreen() {
                         text = date,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = theme.textColor
                     )
                     Spacer(modifier = Modifier.height(12.dp))
 
                     entries.forEach { entry ->
-                        HistoryItem(entry = entry)
+                        HistoryItem(entry = entry, theme = theme)
                         if (entry != entries.last()) {
                             Spacer(modifier = Modifier.height(8.dp))
                         }
@@ -757,7 +999,7 @@ data class HistoryEntry(
 )
 
 @Composable
-fun HistoryItem(entry: HistoryEntry) {
+fun HistoryItem(entry: HistoryEntry, theme: AppTheme) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -782,7 +1024,7 @@ fun HistoryItem(entry: HistoryEntry) {
             Text(
                 text = entry.description,
                 fontSize = 14.sp,
-                color = Color.White
+                color = theme.textColor
             )
             Text(
                 text = entry.time,
@@ -794,7 +1036,7 @@ fun HistoryItem(entry: HistoryEntry) {
 }
 
 @Composable
-fun ConnectionIndicator(isConnected: Boolean) {
+fun ConnectionIndicator(isConnected: Boolean, theme: AppTheme) {
     val color = if (isConnected) Color(0xFF4CAF50) else Color(0xFFFF5722)
     val infiniteTransition = rememberInfiniteTransition(label = "pulse")
     val alpha by infiniteTransition.animateFloat(
@@ -815,11 +1057,11 @@ fun ConnectionIndicator(isConnected: Boolean) {
 }
 
 @Composable
-fun HeartRateCard(heartRate: Int, modifier: Modifier = Modifier) {
+fun HeartRateCard(heartRate: Int, theme: AppTheme, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
+            containerColor = theme.cardColor.copy(alpha = 0.8f)
         ),
         shape = RoundedCornerShape(16.dp)
     ) {
@@ -830,7 +1072,7 @@ fun HeartRateCard(heartRate: Int, modifier: Modifier = Modifier) {
             Icon(
                 Icons.Default.Favorite,
                 contentDescription = null,
-                tint = Color(0xFFE94560),
+                tint = theme.primaryColor,
                 modifier = Modifier.size(32.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -838,7 +1080,7 @@ fun HeartRateCard(heartRate: Int, modifier: Modifier = Modifier) {
                 text = "$heartRate",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.White
+                color = theme.textColor
             )
             Text(
                 text = "BPM",
@@ -846,13 +1088,13 @@ fun HeartRateCard(heartRate: Int, modifier: Modifier = Modifier) {
                 color = Color.Gray
             )
             Spacer(modifier = Modifier.height(8.dp))
-            HeartRateWave(heartRate = heartRate)
+            HeartRateWave(heartRate = heartRate, theme = theme)
         }
     }
 }
 
 @Composable
-fun HeartRateWave(heartRate: Int) {
+fun HeartRateWave(heartRate: Int, theme: AppTheme) {
     val infiniteTransition = rememberInfiniteTransition(label = "wave")
     val phase by infiniteTransition.animateFloat(
         initialValue = 0f,
@@ -877,7 +1119,7 @@ fun HeartRateWave(heartRate: Int) {
             val x = i.toFloat()
             val y = centerY + sin(phase + x * 0.02f) * 10f
             drawCircle(
-                color = Color(0xFFE94560),
+                color = theme.primaryColor,
                 radius = 1.5f,
                 center = Offset(x, y)
             )
@@ -886,11 +1128,11 @@ fun HeartRateWave(heartRate: Int) {
 }
 
 @Composable
-fun OxygenCard(oxygenLevel: Int, modifier: Modifier = Modifier) {
+fun OxygenCard(oxygenLevel: Int, theme: AppTheme, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
+            containerColor = theme.cardColor.copy(alpha = 0.8f)
         ),
         shape = RoundedCornerShape(16.dp)
     ) {
@@ -901,7 +1143,7 @@ fun OxygenCard(oxygenLevel: Int, modifier: Modifier = Modifier) {
             Icon(
                 Icons.Default.Air,
                 contentDescription = null,
-                tint = Color(0xFF4ECDC4),
+                tint = theme.secondaryColor,
                 modifier = Modifier.size(32.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -909,7 +1151,7 @@ fun OxygenCard(oxygenLevel: Int, modifier: Modifier = Modifier) {
                 text = "$oxygenLevel%",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.White
+                color = theme.textColor
             )
             Text(
                 text = "SpO2",
@@ -920,7 +1162,7 @@ fun OxygenCard(oxygenLevel: Int, modifier: Modifier = Modifier) {
             CircularProgressIndicator(
                 progress = { oxygenLevel / 100f },
                 modifier = Modifier.size(40.dp),
-                color = Color(0xFF4ECDC4),
+                color = theme.secondaryColor,
                 strokeWidth = 4.dp
             )
         }
@@ -928,11 +1170,11 @@ fun OxygenCard(oxygenLevel: Int, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ActivityCard(isActive: Boolean, modifier: Modifier = Modifier) {
+fun ActivityCard(isActive: Boolean, theme: AppTheme, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
+            containerColor = theme.cardColor.copy(alpha = 0.8f)
         ),
         shape = RoundedCornerShape(16.dp)
     ) {
@@ -943,7 +1185,7 @@ fun ActivityCard(isActive: Boolean, modifier: Modifier = Modifier) {
             Icon(
                 if (isActive) Icons.Default.DirectionsRun else Icons.Default.SelfImprovement,
                 contentDescription = null,
-                tint = if (isActive) Color(0xFFFFD93D) else Color(0xFF4ECDC4),
+                tint = if (isActive) theme.accentColor else theme.secondaryColor,
                 modifier = Modifier.size(40.dp)
             )
             Spacer(modifier = Modifier.width(16.dp))
@@ -952,7 +1194,7 @@ fun ActivityCard(isActive: Boolean, modifier: Modifier = Modifier) {
                     text = if (isActive) "Active Exercise" else "Resting",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = theme.textColor
                 )
                 Text(
                     text = if (isActive) "High intensity detected" else "Low activity level",
@@ -970,12 +1212,13 @@ fun MetricCard(
     value: String,
     icon: ImageVector,
     color: Color,
+    theme: AppTheme,
     modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
+            containerColor = theme.cardColor.copy(alpha = 0.8f)
         ),
         shape = RoundedCornerShape(16.dp)
     ) {
@@ -994,7 +1237,7 @@ fun MetricCard(
                 text = value,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.White
+                color = theme.textColor
             )
             Text(
                 text = title,
@@ -1006,11 +1249,11 @@ fun MetricCard(
 }
 
 @Composable
-fun BatteryCard(batteryLevel: Int, modifier: Modifier = Modifier) {
+fun BatteryCard(batteryLevel: Int, theme: AppTheme, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
+            containerColor = theme.cardColor.copy(alpha = 0.8f)
         ),
         shape = RoundedCornerShape(16.dp)
     ) {
@@ -1023,8 +1266,8 @@ fun BatteryCard(batteryLevel: Int, modifier: Modifier = Modifier) {
                 contentDescription = null,
                 tint = when {
                     batteryLevel > 50 -> Color(0xFF4CAF50)
-                    batteryLevel > 20 -> Color(0xFFFFD93D)
-                    else -> Color(0xFFE94560)
+                    batteryLevel > 20 -> theme.accentColor
+                    else -> theme.primaryColor
                 },
                 modifier = Modifier.size(24.dp)
             )
@@ -1033,7 +1276,7 @@ fun BatteryCard(batteryLevel: Int, modifier: Modifier = Modifier) {
                 text = "$batteryLevel%",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.White
+                color = theme.textColor
             )
             Text(
                 text = "Battery",
@@ -1045,11 +1288,11 @@ fun BatteryCard(batteryLevel: Int, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun DeviceInfoCard(modifier: Modifier = Modifier) {
+fun DeviceInfoCard(theme: AppTheme, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF1E1E2E).copy(alpha = 0.8f)
+            containerColor = theme.cardColor.copy(alpha = 0.8f)
         ),
         shape = RoundedCornerShape(16.dp)
     ) {
@@ -1068,7 +1311,7 @@ fun DeviceInfoCard(modifier: Modifier = Modifier) {
                 text = "SH-001",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.White
+                color = theme.textColor
             )
             Text(
                 text = "Smart Headband",
