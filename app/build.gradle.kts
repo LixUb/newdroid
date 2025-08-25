@@ -58,25 +58,18 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.bluetooth:bluetooth:1.0.0-alpha01")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation("com.google.code.gson:gson:2.10.1")
 
-    // Additional dependencies for animations and charts
     implementation("androidx.compose.animation:animation:1.6.0")
     implementation("androidx.compose.animation:animation-graphics:1.6.0")
 
-    // For coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
-    // For ViewModel and LiveData
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
-
-    // For navigation if needed later
     implementation("androidx.navigation:navigation-compose:2.7.6")
-
-    // For permissions handling
-    implementation("com.google.accompanist:accompanist-permissions:0.32.0")
-
-    // For Bluetooth and sensor communication (add when implementing hardware connection)
     implementation("androidx.bluetooth:bluetooth:1.0.0-alpha02")
     implementation ("com.google.android.material:material:1.9.0")
 
@@ -87,4 +80,5 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
 }
