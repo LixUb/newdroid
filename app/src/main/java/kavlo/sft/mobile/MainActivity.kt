@@ -35,22 +35,31 @@ import kavlo.sft.mobile.ui.theme.SmartHeadbandTheme
 import kotlinx.coroutines.delay
 import kotlin.math.sin
 import kotlin.random.Random
+import kavlo.sft.mobile.service.ESP32BluetoothService
+import kavlo.sft.mobile.data.SensorData
+import androidx.compose.runtime.collectAsState
 
 class MainActivity : ComponentActivity() {
+    private lateinit var esp32Service: ESP32BluetoothService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        esp32Service = ESP32BluetoothService(this)
         setContent {
             SmartHeadbandTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SmartHeadbandApp()
+                    SmartHeadbandApp(esp32Service)
                 }
             }
         }
     }
 }
+    override fun onDestroy() { 
+        super.onDestroy()
+        esp32Service.cleanup()
+    }
 
 // Theme Data Classes
 data class AppTheme(
@@ -160,36 +169,29 @@ sealed class NavigationItem(val route: String, val icon: ImageVector, val title:
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SmartHeadbandApp() {
+fun SmartHeadbandApp(esp32Service: ESP32BluetoothService) {
     var selectedItem by remember { mutableStateOf(0) }
-    var isConnected by remember { mutableStateOf(true) }
-    var heartRate by remember { mutableStateOf(72) }
-    var oxygenLevel by remember { mutableStateOf(98) }
-    var isActiveActivity by remember { mutableStateOf(false) }
-    var temperature by remember { mutableStateOf(36.5f) }
-    var stressLevel by remember { mutableStateOf(25) }
+    var isConnected by remember { mutableStateOf(0) }
+    var heartRate by remember { mutableStateOf(0) }
+    var oxygenLevel by remember { mutableStateOf(0) }
+    var isActiveActivity by remember { mutableStateOf(0) }
+    var temperature by remember { mutableStateOf(0) }
+    var stressLevel by remember { mutableStateOf(0) }
     var batteryLevel by remember { mutableStateOf(85) }
     var selectedTheme by remember { mutableStateOf(availableThemes[0]) }
-
-    var userName by remember { mutableStateOf("John Doe") }
-    var userAge by remember { mutableStateOf("25") }
+    var userName by remember { mutableStateOf("Senna Farras Hazim") }
+    var userAge by remember { mutableStateOf("17") }
     var userHeight by remember { mutableStateOf("175") }
     var userWeight by remember { mutableStateOf("70") }
+    var selectedItem by remember { mutableStateOf(0) }
+    var selectedTheme by remember { mutableStateOf(availableThemes[0]) }
+
+
+    val sensorData by esp32Service.sensorData.collectAsState()
+    val connectionStatus by esp32Service.connectionStatus.collectAsState()
 
     LaunchedEffect(Unit) {
-        while (true) {
-            delay(1000)
-            heartRate = if (isActiveActivity) {
-                Random.nextInt(120, 160)
-            } else {
-                Random.nextInt(60, 90)
-            }
-            oxygenLevel = Random.nextInt(95, 100)
-            isActiveActivity = Random.nextBoolean()
-            temperature = Random.nextFloat() * 2 + 36f
-            stressLevel = Random.nextInt(10, 80)
-            batteryLevel = maxOf(0, batteryLevel - Random.nextInt(0, 2))
-        }
+        esp32Service.connectToDevice("XX:XX:XX:XX:XX:XX") //ESP32 MAC
     }
 
     val items = listOf(
