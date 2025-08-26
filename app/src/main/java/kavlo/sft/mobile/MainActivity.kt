@@ -38,8 +38,6 @@ import kotlin.random.Random
 import kavlo.sft.mobile.service.ESP32BluetoothService
 import kavlo.sft.mobile.data.SensorData
 import androidx.compose.runtime.collectAsState
-import kavlo.sft.mobile.service.ESP32BluetoothService 
-import kavlo.sft.mobile.data.SensorData 
 
 class MainActivity : ComponentActivity() {
     private lateinit var esp32Service: ESP32BluetoothService
@@ -251,12 +249,12 @@ fun SmartHeadbandApp(esp32Service: ESP32BluetoothService) {
             when (selectedItem) {
                 0 -> HomeScreen(
                     isConnected = isConnected,
-                    heartRate = sensorData.heartRate,
-                    oxygenLevel = sensorData.oxygenLevel,
-                    isActiveActivity = sensorData.heartRate > 100, 
-                    temperature = sensorData.temperature,
-                    stressLevel = sensorData.stressLevel,
-                    batteryLevel = sensorData.batteryLevel,
+                    heartRate = heartRate,
+                    oxygenLevel = oxygenLevel,
+                    isActiveActivity = isActiveActivity,
+                    temperature = temperature,
+                    stressLevel = stressLevel,
+                    batteryLevel = batteryLevel,
                     theme = selectedTheme
                 )
                 1 -> ProfileScreen(
